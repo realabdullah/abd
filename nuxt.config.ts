@@ -7,8 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@vueuse/nuxt",
     "@nuxt/icon",
-    "@nuxt/fonts",
-    "@nuxthq/studio"
+    "@nuxt/fonts"
   ],
 
   app: {
