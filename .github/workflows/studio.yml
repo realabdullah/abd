@@ -50,10 +50,14 @@ jobs:
         name: Install pnpm
         id: pnpm-install
 
-      - uses: actions/setup-node@v4
+      - name: Create symbolic link for .nvmrc
+        run: ln -s ${{ github.action_path }}/.nvmrc
+        shell: bash
+     
+      - name: Set up Node.js
+        uses: actions/setup-node@v4  
         with:
-          version: ${{ matrix.node }}
-          cache: ${{ steps.pkgman.outputs.cache }}
+          node-version-file: ./.nvmrc
 
       - name: Install dependencies
         run: ${{ steps.pkgman.outputs.package_manager }} install
