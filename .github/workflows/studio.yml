@@ -1,3 +1,4 @@
+
 name: studio-nuxt-build
 run-name: studio nuxt build
 
@@ -5,7 +6,7 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches:
-      - "main"
+      - 'main'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -49,14 +50,10 @@ jobs:
         name: Install pnpm
         id: pnpm-install
 
-      - name: Create symbolic link for .nvmrc
-        run: ln -s ${{ github.action_path }}/.nvmrc
-        shell: bash
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: ./.nvmrc
+          version: ${{ matrix.node }}
+          cache: ${{ steps.pkgman.outputs.cache }}
 
       - name: Install dependencies
         run: ${{ steps.pkgman.outputs.package_manager }} install
@@ -65,6 +62,7 @@ jobs:
         run: npx nuxi build --preset github_pages
         env:
           NUXT_CONTENT_PREVIEW_API: https://api.nuxt.studio
+          
 
       # Deployment job
       - name: Deploy 🚀
