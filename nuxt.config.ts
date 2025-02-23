@@ -1,6 +1,5 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
   modules: [
     "@nuxt/ui",
     "@nuxt/image",
@@ -9,7 +8,12 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/fonts"
   ],
-
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      failOnError: false, 
+    },
+  },
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
@@ -22,6 +26,5 @@ export default defineNuxtConfig({
       },
     },
   },
-
   compatibilityDate: "2025-02-23"
 });
