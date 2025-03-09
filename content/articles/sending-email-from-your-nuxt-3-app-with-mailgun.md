@@ -1,15 +1,17 @@
 ---
-title: "Sending email from your Nuxt 3 app with Mailgun"
-description: "Have you found yourself in a situation where you needed to send emails from your Nuxt application? With Nuxt's server and Mailgun, sending emails directly from your Nuxt 3 app becomes a breeze"
+title: Sending email from your Nuxt 3 app with Mailgun
+description: Have you found yourself in a situation where you needed to send
+  emails from your Nuxt application? With Nuxt's server and Mailgun, sending
+  emails directly from your Nuxt 3 app becomes a breeze
 published: 2023/10/14
-slug: "sending-email-from-your-nuxt-3-app-with-mailgun"
+slug: sending-email-from-your-nuxt-3-app-with-mailgun
 ---
 
 Have you found yourself in a situation where you needed to send emails from your Nuxt application? With Nuxt's server and Mailgun, sending emails directly from your Nuxt 3 app becomes a breeze.
 
 To get started, create a Nuxt 3 app using the following command. Ensure that you have Node.js version 16 or newer installed, along with a text editor and a terminal for running these commands:
 
-```markdown
+```bash
 npx nuxi@latest init my-app
 
 # select preferred package manager
@@ -102,16 +104,11 @@ Now, if you fill out the form and click the "Sign up" button, your form details 
 
 To send an email to the user's email after a successful signup, we will use Nuxt 3's server directory to create an API endpoint. This endpoint will handle email sending. Follow these steps:
 
-* Create an `api` folder inside the `server` folder at the root of the application.
-    
-* In Nuxt 3, to create an API endpoint, you create a new file in the `api` folder with the method attached to the name of the file. For instance, if you want to create a `GET` endpoint named "hello," you would create a file named `hello.get.ts` if you're using TypeScript or `hello.get.js` if you're using JavaScript. In this case, we're creating an email endpoint with the `POST` method since we're sending data.
-    
-* Create a file named `email.post.ts` in the `api` folder.
-    
-* In the `email.post.ts` endpoint file, we'll export a default function defined with `defineEventHandler()`. This function will be an asynchronous arrow function that defines the event handler. It'll have an `event` object as its argument, which represents an incoming event or request.
-    
-* We'll asynchronously read the body content of the event by calling a `readBody` function. Then we assign the content of the event's body to a `body` variable. This `body` variable will contain the data that we receive in the request body.
-    
+- Create an `api` folder inside the `server` folder at the root of the application.
+- In Nuxt 3, to create an API endpoint, you create a new file in the `api` folder with the method attached to the name of the file. For instance, if you want to create a `GET` endpoint named "hello," you would create a file named `hello.get.ts` if you're using TypeScript or `hello.get.js` if you're using JavaScript. In this case, we're creating an email endpoint with the `POST` method since we're sending data.
+- Create a file named `email.post.ts` in the `api` folder.
+- In the `email.post.ts` endpoint file, we'll export a default function defined with `defineEventHandler()`. This function will be an asynchronous arrow function that defines the event handler. It'll have an `event` object as its argument, which represents an incoming event or request.
+- We'll asynchronously read the body content of the event by calling a `readBody` function. Then we assign the content of the event's body to a `body` variable. This `body` variable will contain the data that we receive in the request body.
 
 This endpoint we just created will eventually be responsible for processing the data from our sign-up form and sending an email to the user's email address.
 
@@ -135,10 +132,10 @@ const form = reactive({
 const handleSubmission = async () => {
     await useFetch("/api/email", {
         method: "POST",
-		body: {
+        body: {
             name: form.name,
-		    email: form.email,
-		},
+            email: form.email,
+        },
     });
     console.log(form);
     alert("Sign up successful!");
@@ -152,12 +149,9 @@ Upon submitting the form, you will notice that the name and email are logged to 
 
 In this tutorial, we will utilize Mailgun's sandbox domain, which has limitations allowing only authorized email addresses to receive emails. If you wish to send emails to all user email addresses and also connect your domain, consider upgrading your Mailgun account.
 
-* Visit your [Mailgun dashboard](https://app.mailgun.com/app/sending/domains) to copy the domain associated with your Sandbox account.
-    
-* We then create a `.env` file in the root of our application and paste the copied domain into it.
-    
-* To send emails from our application, we'll need an API key from Mailgun. You can create an API key by following this [link](https://app.mailgun.com/settings/api_security).
-    
+- Visit your [Mailgun dashboard](https://app.mailgun.com/app/sending/domains) to copy the domain associated with your Sandbox account.
+- We then create a `.env` file in the root of our application and paste the copied domain into it.
+- To send emails from our application, we'll need an API key from Mailgun. You can create an API key by following this [link](https://app.mailgun.com/settings/api_security).
 
 ```plaintext
 MAILGUN_DOMAIN=sandboxxxxxxxxxxxxxxxxxxxxxc.mailgun.org
@@ -183,19 +177,19 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     
     const mailgun = new Mailgun(formData);
-	const mg = mailgun.client({
-		username: "api",
-		key: process.env.MAILGUN_API_KEY,
-	});
+    const mg = mailgun.client({
+        username: "api",
+        key: process.env.MAILGUN_API_KEY,
+    });
 
     const data = {
-		from: "User <admin@test.test>",
-		to: body.email,
-		subject: "Welcome to test app!",
-		text: `Hi ${body.name}! Welcome to our test app! We're glad to have you onBoard!.`,
-	};
+        from: "User <admin@test.test>",
+        to: body.email,
+        subject: "Welcome to test app!",
+        text: `Hi ${body.name}! Welcome to our test app! We're glad to have you onBoard!.`,
+    };
 
-	await mg.messages.create(process.env.MAILGUN_DOMAIN, data);
+    await mg.messages.create(process.env.MAILGUN_DOMAIN, data);
 });
 ```
 
