@@ -5,6 +5,11 @@ description: Have you found yourself in a situation where you needed to send
   emails directly from your Nuxt 3 app becomes a breeze
 published: 2023/10/14
 slug: sending-email-from-your-nuxt-3-app-with-mailgun
+seo:
+  title: Sending email from your Nuxt 3 app with Mailgun
+  description: Have you found yourself in a situation where you needed to send
+    emails from your Nuxt application? With Nuxt's server and Mailgun, sending
+    emails directly from your Nuxt 3 app becomes a breeze
 ---
 
 Have you found yourself in a situation where you needed to send emails from your Nuxt application? With Nuxt's server and Mailgun, sending emails directly from your Nuxt 3 app becomes a breeze.
@@ -34,7 +39,7 @@ Now that our application is up and running, in this tutorial, we'll implement a 
 
 For this tutorial, we will work with the `app.vue` file in our application. First, let's clean up the content of `app.vue`. Within this file, we will define a reactive form state to store the data entered by the user. We will also create and style a basic form to gather user inputs.
 
-```svelte
+```vue
 <script lang="ts" setup>
 const form = reactive({
     name: "",
@@ -112,7 +117,7 @@ To send an email to the user's email after a successful signup, we will use Nuxt
 
 This endpoint we just created will eventually be responsible for processing the data from our sign-up form and sending an email to the user's email address.
 
-```typescript
+```ts
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     console.log(body);
@@ -121,7 +126,7 @@ export default defineEventHandler(async (event) => {
 
 Now that we have created an API endpoint accessible at `/api/email`, let's test it by returning to `app.vue`. In this step, we will make a `POST` request to the endpoint using the `form`'s email and name state as the request body. To make this request, we'll utilize `useFetch`, which is a composable provided by Nuxt.
 
-```svelte
+```vue
 <script lang="ts" setup>
 const form = reactive({
     name: "",
@@ -153,14 +158,14 @@ In this tutorial, we will utilize Mailgun's sandbox domain, which has limitation
 - We then create a `.env` file in the root of our application and paste the copied domain into it.
 - To send emails from our application, we'll need an API key from Mailgun. You can create an API key by following this [link](https://app.mailgun.com/settings/api_security).
 
-```plaintext
+```bash
 MAILGUN_DOMAIN=sandboxxxxxxxxxxxxxxxxxxxxxc.mailgun.org
 MAILGUN_API_KEY=f23xxxxxxxxxxxxxxxxxxx-xxxxx-xxxxxx
 ```
 
 Next, we'll need to install `mailgun.js` to handle the email-sending process.
 
-```markdown
+```bash
 # Install mailgun.js
 npm i mailgun.js or yarn add mailgun.js
 ```
@@ -169,7 +174,7 @@ In the endpoint file, we will begin by importing `formData` from the `form-data`
 
 Following that, we will create a `data` object that includes the properties to be sent in the email, such as the sender (`from`), recipient (`to`), the subject, and the body of the email. Subsequently, we will call the `create` method of the `message` object within the `mailgun.client` that we assigned to a variable earlier. The `create` method will receive the domain and the `data` object as its arguments.
 
-```typescript
+```ts
 import formData from "form-data";
 import Mailgun from "mailgun.js";
 
