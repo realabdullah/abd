@@ -62,7 +62,7 @@ jobs:
         run: npx nuxi build --preset github_pages
         env:
           NUXT_CONTENT_PREVIEW_API: https://api.nuxt.studio
-          
+          VITE_DOMAIN: ${{ secrets.VITE_DOMAIN }}
 
       # Deployment job
       - name: Deploy 🚀
