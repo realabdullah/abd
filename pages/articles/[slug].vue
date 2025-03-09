@@ -38,6 +38,12 @@ getOgImage(route.params.slug);
 
 useSeoMeta({
   ogImage: () => ogImage.value,
+  ogTitle: () => page?.title,
+  ogDescription: () => page?.description,
+  ogImageAlt: () => page?.title,
+  ogImageUrl: () => ogImage.value,
+  twitterTitle: () => page?.title,
+  twitterDescription: () => page?.description,
   twitterCard: "summary_large_image",
   articleAuthor: "Abdullahi Odesanmi",
 });
