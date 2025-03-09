@@ -27,15 +27,17 @@ const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection("articles").where("path", "==", route.path).first();
 });
 
-// const getOgImage = async (slug) => {
-//   try {
-//     const img = await $fetch(`/api/og-image?slug=${slug}`);
-//     return img;
-//   } catch {}
-// };
+const ogImage = ref(null);
+const getOgImage = async (slug) => {
+  try {
+    const img = await $fetch(`/api/og-image?slug=${slug}`);
+    ogImage.value = img;
+  } catch {}
+};
+getOgImage(route.params.slug);
 
 useSeoMeta({
-  ogImage: () => `${import.meta.env.VITE_DOMAIN}/api/og-image?slug=${route.params.slug}`,
+  ogImage: () => ogImage.value,
   twitterCard: "summary_large_image",
   articleAuthor: "Abdullahi Odesanmi",
 });

@@ -3,6 +3,14 @@ import satori from "satori";
 import sharp from "sharp";
 import { readFile } from "fs/promises";
 import path from "path";
+import cloudinary from 'cloudinary';
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
 const DMSansFontPath = path.resolve("public/fonts/DMSans-Regular.ttf");
 let DMSansFontData: ArrayBuffer | null = null;
@@ -108,7 +116,21 @@ export default defineEventHandler(async (event) => {
 
   const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
 
-  return new Response(pngBuffer, {
-    headers: { "Content-Type": "image/png" },
+  const uploadResponse = await new Promise((resolve, reject) => {
+    cloudinary.v2.uploader.upload_stream(
+      {
+        resource_type: 'image',
+        folder: 'og-images',
+        public_id: slug as string,
+        overwrite: true,
+        format: 'webp',
+      },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    ).end(pngBuffer);
   });
+
+  return { url: uploadResponse.secure_url };
 });

@@ -23,6 +23,7 @@
   "dependencies": {
     "@iconify-json/lucide": "1.1.145",
     "@nuxt/image": "1.1.0",
+    "cloudinary": "^2.5.1",
     "postcss-custom-properties": "^14.0.4",
     "satori": "^0.12.1",
     "vue-use-fixed-header": "^2.0.0"
