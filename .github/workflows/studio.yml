@@ -63,9 +63,9 @@ jobs:
         env:
           NUXT_CONTENT_PREVIEW_API: https://api.nuxt.studio
           CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
-CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
-CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
-VITE_DOMAIN: ${{ secrets.VITE_DOMAIN }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          VITE_DOMAIN: ${{ secrets.VITE_DOMAIN }}
 
       # Deployment job
       - name: Deploy 🚀
