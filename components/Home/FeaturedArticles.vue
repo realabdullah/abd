@@ -21,10 +21,9 @@
 
 <script lang="ts" setup>
 const { data: articles } = await useAsyncData("articles-home", () =>
-  queryContent("/articles")
-    .sort({ published: -1 })
+  queryCollection("articles")
+    .select("title", "path", "date", "published", "description")
     .limit(3)
-    .only(["title", "description", "published", "slug", "_path"])
-    .find()
+    .all()
 );
 </script>

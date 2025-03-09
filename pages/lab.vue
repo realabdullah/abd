@@ -24,7 +24,7 @@
 <script setup>
 const description = "Some random experiments with UI I do in my free time.";
 useSeoMeta({
-  title: "Lab | Fayaz Ahmed",
+  title: "Lab | Abdullahi Odesanmi",
   description,
 });
 </script>
